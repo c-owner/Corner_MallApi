@@ -49,6 +49,7 @@ app.post('/products', (req, res) => {
     const {name, description, price, seller, imageUrl} = body;
     if (!name || !description || !price || !seller || !imageUrl) {
         res.status(400).send("모든 필드를 입력해주세요");
+        return;
     }
     // DB에 Data처리 작업속도가 느릴 수 있기 때문에 비동기처리
     models.Product.create({
