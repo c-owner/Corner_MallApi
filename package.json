@@ -1,5 +1,5 @@
 {
-  "name": "node_server",
+  "name": "corner-mall-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.8"
   }
 }

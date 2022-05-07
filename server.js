@@ -1,3 +1,4 @@
+const models = require('./models');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -55,4 +56,12 @@ app.get('/products/:id', function (req, res) {
 // 세팅한 app 실행
 app.listen(port, () => {
     console.log('Corner Mall Server On.');
+    models.sequelize
+        .sync().then(() => {
+            console.log('🌱DB 연결 성공');
+    }).catch(function (err) {
+        console.error(err);
+        console.log('❗️DB 연결 에러');
+        process.exit();
+    });
 });
