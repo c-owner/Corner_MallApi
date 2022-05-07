@@ -9,32 +9,15 @@ app.use(cors()); // 브라우저의 CORS 이슈를 막기 위해 사용하는 �
 
 // 리스트
 app.get('/products', (req, res) => {
-    const query = req.query;
-    console.log('Query : ', query);
-    res.send({
-        "products": [
-            {
-                "id": 1,
-                "name": "농구공",
-                "price": 100000,
-                "seller": "조던",
-                "imageUrl": "images/products/basketball1.jpeg"
-            },
-            {
-                "id": 2,
-                "name": "축구공",
-                "price": 50000,
-                "seller": "메시",
-                "imageUrl": "images/products/soccerball1.jpg"
-            },
-            {
-                "id": 3,
-                "name": "키보드",
-                "price": 10000,
-                "seller": "그랩",
-                "imageUrl": "images/products/keyboard1.jpg"
-            }
-        ]
+    // findAll 은 Product에 해당되는 테이블을 모두 가져온다.
+    models.Product.findAll().then((result) => {
+        console.log("Products : ", result);
+        res.send({
+           products : result
+        });
+    }).catch((error) => {
+        console.error(error);
+        res.send("서버에 오류가 발생하여 조회를 할 수 없습니다.");
     });
 });
 
@@ -42,9 +25,12 @@ app.get('/products', (req, res) => {
 app.post('/products', (req, res) => {
     const body = req.body;
     const {name, description, price, seller} = body;
+    if(!name || !description || !price || !seller ) {
+        res.send("모든 필드를 입력해주세요");
+    }
     // DB에 Data처리 작업속도가 느릴 수 있기 때문에 비동기처리
     models.Product.create({
-        name, price, seller, description
+        name, description, price, seller
     }).then((result) => {
         console.log('상품 생성 결과 : ', result);
         res.send({
