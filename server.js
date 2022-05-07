@@ -10,10 +10,19 @@ app.use(cors()); // 브라우저의 CORS 이슈를 막기 위해 사용하는 �
 // 리스트
 app.get('/products', (req, res) => {
     // findAll 은 Product에 해당되는 테이블을 모두 가져온다.
-    models.Product.findAll().then((result) => {
+    models.Product.findAll({
+        //    전체 레코드를 전부다 조회하기 때문에 오랜시간이 걸릴 수 있어서 findAll에 limit 조건을 걸어야한다.
+        //    ex ) 페이지네이션 처리
+        //     limit: 10,
+        // -----정렬 방식 order , DESC = 내림차순. (시간이 최신순인게 항상 최근게시물로 올라오는 방식)
+        order: [['createdAt', 'DESC']],
+        // attributes 는 어떤 컬럼을 가져올 것인가. 필요한 컬럼 데이터만 가져올 수 있다.
+        attributes: ['id', 'name', 'price', 'seller', 'createdAt'],
+
+    }).then((result) => {
         console.log("Products : ", result);
         res.send({
-           products : result
+            products: result
         });
     }).catch((error) => {
         console.error(error);
@@ -25,7 +34,7 @@ app.get('/products', (req, res) => {
 app.post('/products', (req, res) => {
     const body = req.body;
     const {name, description, price, seller} = body;
-    if(!name || !description || !price || !seller ) {
+    if (!name || !description || !price || !seller) {
         res.send("모든 필드를 입력해주세요");
     }
     // DB에 Data처리 작업속도가 느릴 수 있기 때문에 비동기처리
@@ -37,8 +46,8 @@ app.post('/products', (req, res) => {
             result
         });
     }).catch((error) => {
-       console.error(error);
-       res.send('상품 업로드에 문제가 발생하였습니다.');
+        console.error(error);
+        res.send('상품 업로드에 문제가 발생하였습니다.');
     });
 });
 
@@ -46,7 +55,19 @@ app.post('/products', (req, res) => {
 app.get('/products/:id', function (req, res) {
     const params = req.params; // ' { id : 값 } ' 형태로 들어온다.
     const {id} = params; // ES6 Destructuring
-    res.send(`id 는 ${id}입니다.`);
+    models.Product.findOne({
+        where: {
+            id: id
+        }
+    }).then((result) => {
+        console.log("PRODUCT : ", result)
+        res.send({
+            product: result
+        })
+    }).catch((error) => {
+        console.error(error);
+        res.send("상품 조회 에러가 발생하였습니다.")
+    });
 })
 
 // 세팅한 app 실행
