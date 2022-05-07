@@ -1,7 +1,7 @@
 # Corner_MallApi
 🌱Node.js Api Server
 
-Site Connect : [🔗Connect Link](http://corner-mac.kro.kr:8080)
+Site Connect : [🔗Connect Link](http://corner-mac.kro.kr:3000)
 
 
 
