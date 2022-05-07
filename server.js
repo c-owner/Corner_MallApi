@@ -1,4 +1,15 @@
 const models = require('./models');
+const multer = require('multer');
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'uploads/');
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        },
+    })
+});
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -69,6 +80,16 @@ app.get('/products/:id', function (req, res) {
         res.send("상품 조회 에러가 발생하였습니다.")
     });
 })
+
+// 파일 upload api
+app.post('/image', upload.single('image'), (req, res) => {
+    const file = req.file;
+    console.log(file);
+    // 다양한 req.file 의 파일 정보중 file.path 값을 넣는다.
+    res.send({
+        imageUrl: file.path
+    })
+});
 
 // 세팅한 app 실행
 app.listen(port, () => {
