@@ -17,7 +17,7 @@ app.get('/products', (req, res) => {
         // -----정렬 방식 order , DESC = 내림차순. (시간이 최신순인게 항상 최근게시물로 올라오는 방식)
         order: [['createdAt', 'DESC']],
         // attributes 는 어떤 컬럼을 가져올 것인가. 필요한 컬럼 데이터만 가져올 수 있다.
-        attributes: ['id', 'name', 'price', 'seller', 'createdAt'],
+        attributes: ['id', 'name', 'price', 'seller', 'createdAt', "imageUrl"],
 
     }).then((result) => {
         console.log("Products : ", result);
