@@ -17,6 +17,8 @@ const port = 8080;
 
 app.use(express.json()); // json 형식의 데이터를 처리할 수 있게 설정하는 코드
 app.use(cors()); // 브라우저의 CORS 이슈를 막기 위해 사용하는 코드
+//파일 처리 업로드 처리
+app.use('/uploads', express.static('uploads'));
 
 // 리스트
 app.get('/products', (req, res) => {
@@ -37,20 +39,20 @@ app.get('/products', (req, res) => {
         });
     }).catch((error) => {
         console.error(error);
-        res.send("서버에 오류가 발생하여 조회를 할 수 없습니다.");
+        res.status(400).send("서버에 오류가 발생하여 조회를 할 수 없습니다.");
     });
 });
 
 // 생성
 app.post('/products', (req, res) => {
     const body = req.body;
-    const {name, description, price, seller} = body;
-    if (!name || !description || !price || !seller) {
-        res.send("모든 필드를 입력해주세요");
+    const {name, description, price, seller, imageUrl} = body;
+    if (!name || !description || !price || !seller || !imageUrl) {
+        res.status(400).send("모든 필드를 입력해주세요");
     }
     // DB에 Data처리 작업속도가 느릴 수 있기 때문에 비동기처리
     models.Product.create({
-        name, description, price, seller
+        name, description, price, seller, imageUrl
     }).then((result) => {
         console.log('상품 생성 결과 : ', result);
         res.send({
@@ -58,7 +60,7 @@ app.post('/products', (req, res) => {
         });
     }).catch((error) => {
         console.error(error);
-        res.send('상품 업로드에 문제가 발생하였습니다.');
+        res.status(400).send('상품 업로드에 문제가 발생하였습니다.');
     });
 });
 
@@ -77,7 +79,7 @@ app.get('/products/:id', function (req, res) {
         })
     }).catch((error) => {
         console.error(error);
-        res.send("상품 조회 에러가 발생하였습니다.")
+        res.status(400).send("상품 조회 에러가 발생하였습니다.")
     });
 })
 
