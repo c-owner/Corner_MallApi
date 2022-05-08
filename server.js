@@ -126,7 +126,9 @@ app.post('/products/:id/update', (req, res) => {
         },
     }).then((result) => {
         // console.log(result);
-        res.send("상품이 수정되었습니다. : " + result);
+        res.send({
+            result: true,
+        });
     }).catch((error) => {
         // console.log(id + '-------------------------')
         console.error(error);
@@ -145,6 +147,13 @@ app.post('/purchase/:id', (req, res) => {
         where: {
             id
         }
+    }).then((result) => {
+        res.send({
+            result: true
+        });
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('에러가 발생했습니다.');
     })
 });
 
