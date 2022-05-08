@@ -20,6 +20,20 @@ app.use(cors()); // 브라우저의 CORS 이슈를 막기 위해 사용하는 �
 //파일 처리 업로드 처리
 app.use('/uploads', express.static('uploads'));
 
+// 배너 API
+app.get('/banners', (req, res) => {
+    models.Banner.findAll({
+        limit: 2,
+    }).then((result) => {
+        res.send({
+            banners: result,
+        });
+    }).catch((error) => {
+        console.error(error);
+        res.status(500).send("에러가 발생했습니다.");
+    });
+});
+
 // 리스트
 app.get('/products', (req, res) => {
     // findAll 은 Product에 해당되는 테이블을 모두 가져온다.

@@ -1,5 +1,5 @@
 var http = require('http'); // node 내장 모듈 불러옴
-var hostname = '127.0.0.1'; // localhost와 동일
+var hostname = 'corner-mac.kro.kr'; // localhost와 동일
 var port = 8080;
 
 const server = http.createServer(function (req, res) {

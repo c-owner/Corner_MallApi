@@ -23,3 +23,4 @@ module.exports = function (sequlize, DataTypes) {
     });
     return product;
 };
+
