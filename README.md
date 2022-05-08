@@ -10,6 +10,12 @@ Site Connect : [🔗Connect Link](https://corner-mall-client.vercel.app/)
 - Sqllite3
 
 
+<!-- 
+`git push heroku main`
+
+
+-->
+
 
 `npm install -g nodemon`
 
