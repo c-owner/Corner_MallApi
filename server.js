@@ -108,6 +108,46 @@ app.post('/image', upload.single('image'), (req, res) => {
     })
 });
 
+// 상품 수정
+app.post('/products/:id/update', (req, res) => {
+    const {id} = req.params;
+    const body = req.body;
+    console.log(id, + '--------' + req.body);
+
+    models.Product.update({
+        name: body.name,
+        description: body.description,
+        price: body.price,
+        seller: body.seller,
+        imageUrl: body.imageURL
+    },{
+        where: {
+            id
+        },
+    }).then((result) => {
+        // console.log(result);
+        res.send("상품이 수정되었습니다. : " + result);
+    }).catch((error) => {
+        // console.log(id + '-------------------------')
+        console.error(error);
+        res.status(500).send("에러가 발생하였습니다. : " + error);
+    });
+});
+// 상품 삭제
+
+
+// 상품 결제
+app.post('/purchase/:id', (req, res) => {
+    const {id} = req.params;
+    models.Product.update({
+        soldout: 1
+    }, {
+        where: {
+            id
+        }
+    })
+});
+
 // 세팅한 app 실행
 app.listen(port, () => {
     console.log('Corner Mall Server On.');

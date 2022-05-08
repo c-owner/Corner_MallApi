@@ -19,7 +19,12 @@ module.exports = function (sequlize, DataTypes) {
         },
         imageUrl: {
             type: DataTypes.STRING(500),
-        }
+        },
+        soldout: {
+            type: DataTypes.INTEGER(1),
+            allowNull: false,
+            defaultValue: 0,
+        },
     });
     return product;
 };
